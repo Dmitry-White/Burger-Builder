@@ -24,7 +24,7 @@ class BurgerBuilder extends Component {
         purchasing: false
     };
 
-    addIngredientHandler = (type) => {
+    addIngredientHandler = type => {
         const oldCount = this.state.ingredients[type];
         const updateCounted = oldCount + 1;
         const updateIngredients = {
@@ -41,7 +41,7 @@ class BurgerBuilder extends Component {
         this.updatePurchaseState(updateIngredients);
     };
 
-    removeIngredientHandler = (type) => {
+    removeIngredientHandler = type => {
         const oldCount = this.state.ingredients[type];
         if (oldCount <= 0) return;
         const updateCounted = oldCount - 1;
@@ -59,7 +59,7 @@ class BurgerBuilder extends Component {
         this.updatePurchaseState(updateIngredients);
     };
 
-    updatePurchaseState(ingredients) {
+    updatePurchaseState = ingredients => {
         const sum = Object.keys(ingredients)
             .map(igKey => {
                 return ingredients[igKey];
@@ -74,6 +74,10 @@ class BurgerBuilder extends Component {
         this.setState({purchasing: true});
     };
 
+    purchaseCancelHandler = () => {
+        this.setState({purchasing: false});
+    };
+
     render() {
         const disableInfo = {
             ...this.state.ingredients
@@ -81,22 +85,23 @@ class BurgerBuilder extends Component {
         for (let key in disableInfo) {
             disableInfo[key] = disableInfo[key] <= 0
         }
-        return (
-            <>
-                <Modal show={this.state.purchasing}>
-                    <OrderSummary ingredients={this.state.ingredients} />
-                </Modal>
-                <Burger ingredients={this.state.ingredients}/>
-                <BuildControls
-                    price={this.state.totalPrice}
-                    disabled={disableInfo} 
-                    purchasable={this.state.purchasable}
-                    ordered={this.purchaseHandler}
-                    ingredientAdded={this.addIngredientHandler}
-                    ingredientRemoved={this.removeIngredientHandler}
-                />
-            </>
-        );
+        return <>
+            <Modal 
+                show={this.state.purchasing}
+                canceled={this.purchaseCancelHandler}
+            >
+                <OrderSummary ingredients={this.state.ingredients} />
+            </Modal>
+            <Burger ingredients={this.state.ingredients}/>
+            <BuildControls
+                price={this.state.totalPrice}
+                disabled={disableInfo} 
+                purchasable={this.state.purchasable}
+                ordered={this.purchaseHandler}
+                ingredientAdded={this.addIngredientHandler}
+                ingredientRemoved={this.removeIngredientHandler}
+            />
+        </>;
     };
 };
 
