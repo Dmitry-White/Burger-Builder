@@ -5,7 +5,7 @@ import Backdrop from '../Backdrop/Backdrop'
 const modal = props => <>
     <Backdrop 
         show={props.show}
-        hide={props.canceled}
+        hide={props.cancelled}
     />
     <div 
         className={classes.Modal}
