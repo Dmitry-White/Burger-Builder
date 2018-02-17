@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import Modal from '../../components/UI/Modal/Modal';
 import Burger from '../../components/Burger/Burger';
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 
 const INGREDIENT_PRICES = {
@@ -76,6 +78,9 @@ class BurgerBuilder extends Component {
         }
         return (
             <>
+                <Modal>
+                    <OrderSummary ingredients={this.state.ingredients} />
+                </Modal>
                 <Burger ingredients={this.state.ingredients}/>
                 <BuildControls
                     price={this.state.totalPrice}
