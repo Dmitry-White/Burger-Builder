@@ -89,28 +89,30 @@ class BurgerBuilder extends Component {
         for (let key in disableInfo) {
             disableInfo[key] = disableInfo[key] <= 0
         }
-        return <>
-            <Modal 
-                show={this.state.purchasing}
-                cancelled={this.purchaseCancelHandler}
-            >
-                <OrderSummary 
-                    ingredients={this.state.ingredients}
-                    price={this.state.totalPrice}
-                    continued={this.purchaseContinueHandler}
+        return (
+            <>
+                <Modal 
+                    show={this.state.purchasing}
                     cancelled={this.purchaseCancelHandler}
+                >
+                    <OrderSummary 
+                        ingredients={this.state.ingredients}
+                        price={this.state.totalPrice}
+                        continued={this.purchaseContinueHandler}
+                        cancelled={this.purchaseCancelHandler}
+                    />
+                </Modal>
+                <Burger ingredients={this.state.ingredients}/>
+                <BuildControls
+                    price={this.state.totalPrice}
+                    disabled={disableInfo} 
+                    purchasable={this.state.purchasable}
+                    ordered={this.purchaseHandler}
+                    ingredientAdded={this.addIngredientHandler}
+                    ingredientRemoved={this.removeIngredientHandler}
                 />
-            </Modal>
-            <Burger ingredients={this.state.ingredients}/>
-            <BuildControls
-                price={this.state.totalPrice}
-                disabled={disableInfo} 
-                purchasable={this.state.purchasable}
-                ordered={this.purchaseHandler}
-                ingredientAdded={this.addIngredientHandler}
-                ingredientRemoved={this.removeIngredientHandler}
-            />
-        </>;
+            </>
+        )
     };
 };
 
