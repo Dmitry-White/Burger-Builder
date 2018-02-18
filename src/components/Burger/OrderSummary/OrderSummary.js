@@ -8,7 +8,7 @@ const orderSummary = props => {
                 <span style={{textTransform: 'capitalize'}}>{igKey} : </span>
                 {props.ingredients[igKey]}
             </li>
-        });
+    });
     return (
         <>
             <h3>Your Order</h3>
@@ -28,6 +28,6 @@ const orderSummary = props => {
             >CONTINUE</Button>
         </>
     );
-}
+};
 
 export default orderSummary;
