@@ -12,9 +12,10 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
 const rootReducer = combineReducers({
-    burger: burgerBuilderReducer,
+    burgerBuilder: burgerBuilderReducer,
     order: orderReducer
-})
+});
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
