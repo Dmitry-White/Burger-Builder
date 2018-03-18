@@ -7,34 +7,46 @@ const initialState = {
     purchased: false
 };
 
+const start = (state, action) => {
+    return updateObject(state, {loading: true});
+};
+
+const fail = (state, action) => {
+    return updateObject(state, {loading: false});
+};
+
+const purchaseInit = (state, action) => {
+    return updateObject(state, {purchased:false});
+};
+
+const purchaseSuccess = (state, action) => {
+    const newOrder = updateObject(action.orderData,{id: action.orderID})
+    const updatedState = {
+        loading: false,
+        purchased: true,
+        orders: state.orders.concat(newOrder)
+    };
+    return updateObject(state,updatedState);
+};
+
+const fetchSuccess = (state, action) => {
+    return updateObject(state, {
+        orders: action.orders,
+        loading: false
+    });
+};
+
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.PURCHASE_BURGER_START:
-            return updateObject(state, {loading: true})
-        case actionTypes.PURCHASE_BURGER_SUCCESS:
-            const newOrder = updateObject(action.orderData,{id: action.orderID})
-            const updatedState = {
-                loading: false,
-                purchased: true,
-                orders: state.orders.concat(newOrder)
-            };
-            return updateObject(state,updatedState);
-        case actionTypes.PURCHASE_BURGER_FAIL:
-            return updatedState(state, {loading: false});
-        case actionTypes.PURCHASE_INIT:
-            return updateObject(state, {purchased:false});
-        case actionTypes.FETCH_ORDERS_START:
-            return updateObject(state, {loading:true});
-        case actionTypes.FETCH_ORDERS_SUCCESS:
-            return updateObject(state, {
-                orders: action.orders,
-                loading: false
-            });
-        case actionTypes.FETCH_ORDERS_FAIL:
-        return updatedState(state, {loading: false});
-        default:
-            break;
+        case actionTypes.PURCHASE_INIT: return purchaseInit(state, action);
+        case actionTypes.PURCHASE_BURGER_START: return start(state, action);
+        case actionTypes.PURCHASE_BURGER_SUCCESS: return purchaseSuccess(state, action);
+        case actionTypes.PURCHASE_BURGER_FAIL: return fail(state, action);
+        case actionTypes.FETCH_ORDERS_START: return start(state, action);
+        case actionTypes.FETCH_ORDERS_SUCCESS: return fetchSuccess(state, action);
+        case actionTypes.FETCH_ORDERS_FAIL: return fail(state, action);
+        default: break;
     };
     return state;
 };

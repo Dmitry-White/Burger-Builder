@@ -12,37 +12,44 @@ const INGREDIENT_PRICES = {
     cheese: 0.4,
     meat: 1.3,
     bacon: 0.7
-}
+};
+
+const updateAmount = (state, action, addition=true) => {
+    let newAmount, newPrice;
+    if (addition) {
+        newAmount = state.ingredients[action.ingredientName] + 1;
+        newPrice = state.totalPrice + INGREDIENT_PRICES[action.ingredientName];
+    } else {
+        newAmount = state.ingredients[action.ingredientName] - 1;
+        newPrice = state.totalPrice - INGREDIENT_PRICES[action.ingredientName];
+    }
+    const updatedIngredients = updateObject(state.ingredients, {[action.ingredientName]: newAmount})
+    const updatedState = {
+        ingredients: updatedIngredients,
+        totalPrice: newPrice
+    };
+    return updateObject(state, updatedState);
+};
+
+const setIngredients = (state, action) => {
+    return updateObject(state, {
+        ingredients: action.ingredients,
+        error: false,
+        totalPrice: 4
+    });
+};
+
+const fetchIngredients = (state, action) => {
+    return updateObject(state, {error: true});
+};
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.ADD_INGREDIENT:
-            const updatedIngredient_1 = { [action.ingredientName]: state.ingredients[action.ingredientName] + 1};
-            const updatedIngredients_1 = updateObject(state.ingredients, updatedIngredient_1)
-            const updatedState_1 = {
-                ingredients: updatedIngredients_1,
-                totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName]
-            };
-            return updateObject(state, updatedState_1);
-        case actionTypes.REMOVE_INGREDIENT:
-            const updatedIngredient_2 = { [action.ingredientName]: state.ingredients[action.ingredientName] - 1};
-            const updatedIngredients_2 = updateObject(state.ingredients, updatedIngredient_2)
-            const updatedState_2 = {
-                ingredients: updatedIngredients_2,
-                totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
-            };
-            return updateObject(state, updatedState_2);
-        case actionTypes.SET_INGREDIENTS:
-            const updatedIngredients = {
-                ingredients: action.ingredients,
-                error: false,
-                totalPrice: 4
-            };
-            return updateObject(state, updatedIngredients)
-        case actionTypes.FETCH_INGREDIENTS_FAILED:
-            return updateObject(state, {error: true});
-        default:
-            break;      
+        case actionTypes.ADD_INGREDIENT: return updateAmount(state, action);
+        case actionTypes.REMOVE_INGREDIENT: return updateAmount(state, action, false);
+        case actionTypes.SET_INGREDIENTS: return setIngredients(state, action);
+        case actionTypes.FETCH_INGREDIENTS_FAILED: return fetchIngredients(state, action);
+        default: break;      
     };
     return state; 
 };
