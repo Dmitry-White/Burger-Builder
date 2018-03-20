@@ -5,7 +5,7 @@ import classes from './Auth.module.css';
 
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
-
+import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import axios from '../../axios-orders';
 import * as authActions from '../../store/actions/'
@@ -122,6 +122,17 @@ class Auth extends Component {
             />
         ));
 
+        if (this.props.loading) {
+            form = <Spinner/>
+        };
+
+        let errorMessage =null;
+        if(this.props.error) {
+            errorMessage = (
+                <p>{this.props.error.message}</p>
+            );
+        };
+
         return (
             <div className={classes.Auth}>
                 {this.state.isSignup ? 'NEW' : 'EXISTING'} USER
@@ -129,7 +140,7 @@ class Auth extends Component {
                     {form}
                     <Button btnType="Success">SUBMIT</Button>
                 </form>
-
+                {errorMessage}
                 <Button clicked={this.switchAuthModeHandler} btnType="Danger">
                     SWITCH TO {this.state.isSignup ? 'SIGNIN' : 'SIGNUP'}
                 </Button>
@@ -140,7 +151,8 @@ class Auth extends Component {
 
 const mapStateToProps = state => {
     return {
-        loading: state.auth.loading
+        loading: state.auth.loading,
+        error: state.auth.error
     };
 };
 
