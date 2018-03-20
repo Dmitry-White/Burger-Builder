@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import classes from './Auth.module.css';
 
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import axios from '../../axios-orders';
+import * as authActions from '../../store/actions/'
 
 class Auth extends Component {
     state = {
@@ -74,8 +78,17 @@ class Auth extends Component {
                 touched: true
             }
         };
-        this.setState({controls: updatedControls})
+        this.setState({controls: updatedControls});
     };
+
+    submitHandler = e => {
+        e.preventDefault();
+        this.props.onAuth(
+            this.state.controls.email.value,
+            this.state.controls.password.value
+        );
+    };
+
 
 
     render() {
@@ -102,7 +115,7 @@ class Auth extends Component {
 
         return (
             <div className={classes.Auth}>
-                <form>
+                <form onSubmit={this.submitHandler}>
                     {form}
                     <Button btnType="Success">SUBMIT</Button>
                 </form>
@@ -111,4 +124,17 @@ class Auth extends Component {
     };
 };
 
-export default Auth;
+const mapStateToProps = state => {
+    return {
+        email: state.auth.email,
+        password: state.auth.password
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onAuth: (email, password) => dispatch(authActions.auth(email, password))
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Auth, axios));
