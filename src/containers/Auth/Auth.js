@@ -5,6 +5,7 @@ import classes from './Auth.module.css';
 
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
+
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import axios from '../../axios-orders';
 import * as authActions from '../../store/actions/'
@@ -40,7 +41,8 @@ class Auth extends Component {
                 valid: false,
                 touched: false
             }
-        }
+        },
+        isSignup: true
     };
 
     checkValidity(value, rules) {
@@ -85,11 +87,18 @@ class Auth extends Component {
         e.preventDefault();
         this.props.onAuth(
             this.state.controls.email.value,
-            this.state.controls.password.value
+            this.state.controls.password.value,
+            this.state.isSignup
         );
     };
 
-
+    switchAuthModeHandler = () => {
+        this.setState(prevState => {
+            return {
+                isSignup: !prevState.isSignup
+            };
+        });
+    };
 
     render() {
         const formElementsArray = [];
@@ -100,7 +109,7 @@ class Auth extends Component {
             })
         };
 
-        const form = formElementsArray.map(formElement => (
+        let form = formElementsArray.map(formElement => (
             <Input
                 key={formElement.id} 
                 elementType={formElement.config.elementType}
@@ -115,10 +124,15 @@ class Auth extends Component {
 
         return (
             <div className={classes.Auth}>
+                {this.state.isSignup ? 'NEW' : 'EXISTING'} USER
                 <form onSubmit={this.submitHandler}>
                     {form}
                     <Button btnType="Success">SUBMIT</Button>
                 </form>
+
+                <Button clicked={this.switchAuthModeHandler} btnType="Danger">
+                    SWITCH TO {this.state.isSignup ? 'SIGNIN' : 'SIGNUP'}
+                </Button>
             </div>
         )       
     };
@@ -126,14 +140,13 @@ class Auth extends Component {
 
 const mapStateToProps = state => {
     return {
-        email: state.auth.email,
-        password: state.auth.password
+        loading: state.auth.loading
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuth: (email, password) => dispatch(authActions.auth(email, password))
+        onAuth: (email, password, isSignup) => dispatch(authActions.auth(email, password, isSignup))
     };
 };
 
