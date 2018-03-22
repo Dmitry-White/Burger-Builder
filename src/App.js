@@ -16,7 +16,7 @@ class App extends Component {
   };
 
   render() {
-    let route = (
+    let routes = (
       <Switch>
         <Route path="/auth" component={Auth}/>
         <Route path="/" component={BurgerBuilder}/>
