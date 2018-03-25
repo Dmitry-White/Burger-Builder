@@ -1,6 +1,9 @@
 # React-Burger
 Burger App, built as a main project of ReactJS course on Udemy
 
+## Demo on Firebase
+[Yummy Burger](https://react-white-burger.firebaseapp.com/)
+
 ## Table of Contents
 
 - [Folder Structure](#folder-structure)
