@@ -1,7 +1,7 @@
 # React-Burger
-Burger App, built as a main project of ReactJS course on Udemy
+Burger App, built as a main project of ReactJS course on Udemy.
 <br/>
-[Yummy Burger](https://react-white-burger.firebaseapp.com/)
+Go and take your [Yummy Burger](https://react-white-burger.firebaseapp.com/)!
 
 ## Table of Contents
 
