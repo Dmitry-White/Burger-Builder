@@ -5,6 +5,7 @@ import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
 const burger = (props) => {
     let transformedIngredients = Object.keys(props.ingredients)
         .map(igKey => {
+            // eslint-disable-next-line
             return [...Array(props.ingredients[igKey])].map((_, index) => {
                 return <BurgerIngredient key={igKey + index} type={igKey}/>
             })
