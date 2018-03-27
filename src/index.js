@@ -12,7 +12,7 @@ import orderReducer from './store/reducers/order';
 import authReducer from './store/reducers/auth';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { watchAuth } from './store/sagas';
+import { watchAuth, watchBurger } from './store/sagas';
 
 const rootReducer = combineReducers({
     burgerBuilder: burgerBuilderReducer,
@@ -30,6 +30,7 @@ const store = createStore(
 );
 
 sagaMiddleware.run(watchAuth);
+sagaMiddleware.run(watchBurger);
 
 const app = (
     <Provider store={store}>

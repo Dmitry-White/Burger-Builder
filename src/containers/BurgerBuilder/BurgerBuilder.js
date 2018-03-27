@@ -8,7 +8,7 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import * as actions from '../../store/actions/';
+import * as burgerActions from '../../store/actions/';
 
 export class BurgerBuilder extends Component {
     state = {
@@ -108,11 +108,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        addIngredientHandler: ingName => dispatch(actions.addIngredient(ingName)),
-        removeIngredientHandler: ingName => dispatch(actions.removeIngredient(ingName)),
-        onInitIngredients: () => dispatch(actions.initIngredients()),
-        onInitPurchase: () => dispatch(actions.purchaseInit()),
-        onSetAuthRedirectPath: path => dispatch(actions.setAuthRedirectPath(path))
+        addIngredientHandler: ingName => dispatch(burgerActions.addIngredient(ingName)),
+        removeIngredientHandler: ingName => dispatch(burgerActions.removeIngredient(ingName)),
+        onInitIngredients: () => dispatch(burgerActions.initIngredients()),
+        onInitPurchase: () => dispatch(burgerActions.purchaseInit()),
+        onSetAuthRedirectPath: path => dispatch(burgerActions.setAuthRedirectPath(path))
     };
 };
 
