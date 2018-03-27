@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
+import createSagaMiddleware from 'redux-saga'
 
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
@@ -11,6 +12,7 @@ import orderReducer from './store/reducers/order';
 import authReducer from './store/reducers/auth';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { logoutSaga } from './store/sagas/auth';
 
 const rootReducer = combineReducers({
     burgerBuilder: burgerBuilderReducer,
@@ -20,9 +22,11 @@ const rootReducer = combineReducers({
 
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
+const sagaMiddleware = createSagaMiddleware();
+
 const store = createStore(
     rootReducer,
-    composeEnhancers(applyMiddleware(thunk))
+    composeEnhancers(applyMiddleware(thunk, sagaMiddleware))
 );
 
 const app = (
