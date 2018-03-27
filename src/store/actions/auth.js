@@ -49,31 +49,11 @@ export const setAuthRedirectPath = path => {
 };
 
 export const auth = (email, password, isSignup) => {
-    return dispatch => {
-        dispatch(authStart());
-        const authData = {
-            email: email,
-            password: password,
-            returnSecureToken: true
-        };
-        
-        let url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyADPIvnMPZEDlnCf7Ss1OP0MnaFPlXG-oI';
-        if(!isSignup) {
-            url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyADPIvnMPZEDlnCf7Ss1OP0MnaFPlXG-oI';
-        };
-
-        axios.post(url, authData)
-            .then(res => {
-                const expirationDate = new Date(new Date().getTime() + res.data.expiresIn*1000);
-                localStorage.setItem('token', res.data.idToken);
-                localStorage.setItem('expirationDate', expirationDate);
-                localStorage.setItem('userId', res.data.localId);
-                dispatch(authSuccess(res.data.idToken, res.data.localId));
-                dispatch(checkAuthTimeout(res.data.expiresIn));
-            })
-            .catch(err => {
-                dispatch(authFail(err.response.data.error));
-            });
+    return {
+        type: actionTypes.AUTH_USER,
+        email: email,
+        password: password,
+        isSignup: isSignup
     };
 };
 
