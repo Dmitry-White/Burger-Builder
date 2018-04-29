@@ -21,8 +21,8 @@
   <br/>
   <br/>
   <img width="200" height="107" src="img/screens/img1.png" />
-  <img width="200" height="107" src="img/screens/img2.png" />
   <img width="200" height="107" src="img/screens/img3.png" />
+  <img width="200" height="107" src="img/screens/img2.png" />
 </div>
 
 ## Story
