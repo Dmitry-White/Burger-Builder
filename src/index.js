@@ -22,8 +22,6 @@ const rootReducer = combineReducers({
 
 const composeEnhancers = process.env.NODE_ENV === 'development' ? (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose) : null || compose;
 
-console.log(null);
-
 const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
